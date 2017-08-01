@@ -117,10 +117,14 @@ public class Tabuleiro {
         return tabuleiro;
     }
     
-    public static void main(String[] args) {
-        Tabuleiro t = new Tabuleiro(1);
-        
-        System.out.println(t.imprimirTabuleiro());
-    }
+    //Fazer aqui, depois mudar
     
+    //public static void main(String[] args) {
+        //Tabuleiro t = new Tabuleiro(1);
+        
+        //t.realizarJogada(1, "X");
+        //t.realizarJogada(1, "O");
+        
+        //System.out.println(t.imprimirTabuleiro());
+    //}
 }
