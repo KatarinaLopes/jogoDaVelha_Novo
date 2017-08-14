@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package models.business;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Jogador {
     private String simbolo;
     private int jogadas;
     private int jogadasSucedidas;
-    private boolean[][] tabelaVerificacao = new boolean[3][5];
+    private int[][] tabelaVerificacao = new int[3][5];
 
     @Deprecated
     public Jogador() {
@@ -25,6 +25,7 @@ public class Jogador {
         this.id = id;
         this.nome = nome;
         this.simbolo = simbolo;
+        setTabelaVerificacao();
     }
 
     public int getId() {
@@ -51,8 +52,8 @@ public class Jogador {
         return jogadas;
     }
 
-    public void setJogadas(int jogadas) {
-        this.jogadas = jogadas;
+    public void setJogadas() {
+        this.jogadas++;
     }
 
     public int getJogadasSucedidas() {
@@ -62,6 +63,32 @@ public class Jogador {
     public void setJogadasSucedidas(int jogadasSucedidas) {
         this.jogadasSucedidas = jogadasSucedidas;
     } 
+
+    public int[][] getTabelaVerificacao() {
+        return tabelaVerificacao;
+    }
+
+    private void setTabelaVerificacao() {
+        int valor = 1;
+        
+        for (int i = 0; i < tabelaVerificacao.length; i++) {
+            for (int j = 0; j < tabelaVerificacao[i].length; j++) {
+                tabelaVerificacao[i][j] = valor;
+            }
+            
+            valor++;
+        }
+        
+        tabelaVerificacao[0][1] = tabelaVerificacao[2][1] = 0;
+        tabelaVerificacao[0][2] = tabelaVerificacao[2][2] = 0;
+        tabelaVerificacao[1][3] = tabelaVerificacao[2][3] = 0;
+        tabelaVerificacao[1][4] = 0;
+      
+    }
+    
+    public void alterarTabela(int i, int j){
+        tabelaVerificacao[i][j] = 0;
+    }
    
     public int realizarJogada(int casa, String simbolo, Tabuleiro tabuleiro){
         

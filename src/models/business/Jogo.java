@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package models.business;
 
 import java.util.Scanner;
+import models.validators.Verificador;
 
 /**
  *
@@ -59,7 +60,6 @@ public class Jogo {
     }
 
     public void jogar(int casa) {
-
         if (vez == 0) {
             int resultado = jogador1.realizarJogada(casa, jogador1.getSimbolo(), tabuleiro);
 
@@ -67,33 +67,39 @@ public class Jogo {
                 System.out.println("Esta casa já foi selecionada!!!");
             } else {
                 vez++;
+                jogador1.setJogadas();
             }
-        }else if (vez == 1) {
+        } else if (vez == 1) {
             int resultado = jogador2.realizarJogada(casa, jogador2.getSimbolo(), tabuleiro);
 
             if (resultado == 0) {
                 System.out.println("Esta casa já foi selecionada!!!");
             } else {
                 vez--;
+                jogador2.setJogadas();
             }
         }
-
     }
-    
+
     
     public static void main(String[] args) {
-         Scanner s = new Scanner(System.in);
-         
-         Tabuleiro t = new Tabuleiro(1);
-         
-         Jogo j = new Jogo(1, new Jogador(1, "amor", "X"), new Jogador(2, "ódio", "O"), t);
-         
-         while(!j.getTabuleiro().estaCheio()){
-             //System.out.println(j.getTabuleiro().imprimirTabuleiro());
-             j.jogar(s.nextInt());
-             System.out.println(j.getTabuleiro().imprimirTabuleiro());
-         }
+        Scanner s = new Scanner(System.in);
+
+        Tabuleiro t = new Tabuleiro(1);
+
+        Jogo j = new Jogo(1, new Jogador(1, "amor", "X"), new Jogador(2, "ódio", "O"), t);
+        Verificador v = new Verificador(j);
         
+        int valor = 0;
+        while (!j.getTabuleiro().estaCheio() && valor != 2) {
+            //System.out.println(j.getTabuleiro().imprimirTabuleiro());
+            j.jogar(s.nextInt());
+            System.out.println(j.getTabuleiro().imprimirTabuleiro());
+            
+            valor = v.verificarSeGanhouColuna(1);
+            
+            System.out.println(valor);
+        }
     }
 
 }
