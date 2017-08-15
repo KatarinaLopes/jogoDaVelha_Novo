@@ -8,6 +8,7 @@ package models.validators;
 import models.business.Jogador;
 import models.business.Jogo;
 import models.business.Peca;
+import models.business.Tabuleiro;
 
 /**
  *
@@ -15,23 +16,23 @@ import models.business.Peca;
  */
 public class Verificador {
 
-    private Jogo jogo;
+    //private Jogo jogo;
 
     @Deprecated
     public Verificador() {
     }
 
-    public Verificador(Jogo jogo) {
+    /*public Verificador(Jogo jogo) {
         this.jogo = jogo;
-    }
+    }*/
 
-    public Jogo getJogo() {
+    /*public Jogo getJogo() {
         return jogo;
     }
 
     public void setJogo(Jogo jogo) {
         this.jogo = jogo;
-    }
+    }*/
 
     /**
      * This method receives an int <b>inical</b> which is the id of the initial
@@ -48,9 +49,9 @@ public class Verificador {
      * @return 0 to a null value, no alterations needed; 1 to a unmatch symbol,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouLinha(int inicial) {
+    private static int verificarSeGanhouLinha(int inicial, Tabuleiro t) {
         String p1 = "", p2 = "", p3 = "";
-        Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
+        Peca[][] tabuleiro = t.getQuadro();
 
         for (int i = 0; i < tabuleiro.length; i++) {
             for (int j = 0; j < tabuleiro[i].length; j++) {
@@ -81,12 +82,13 @@ public class Verificador {
      * completed, which means victory
      *
      * @param inicial
+     * @param t
      * @return 0 to a null value, no alterations needed; 1 to a unmatch symbol,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouColuna(int inicial) {
+    private static int verificarSeGanhouColuna(int inicial, Tabuleiro t) {
         String p1 = "", p2 = "", p3 = "";
-        Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
+        Peca[][] tabuleiro = t.getQuadro();
 
         for (int i = 0; i < tabuleiro.length; i++) {
             for (int j = 0; j < tabuleiro[i].length; j++) {
@@ -113,11 +115,12 @@ public class Verificador {
      * alteration on the player's table is needed; or 2 if the diagonal is
      * complete, meaning victory.
      *
+     * @param t
      * @return 0 to a null value, no alterations needed; 1 to an unmatch value,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouDiagonal00() {
-        Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
+    private static int verificarSeGanhouDiagonal00(Tabuleiro t) {
+        Peca[][] tabuleiro = t.getQuadro();
 
         String p1 = tabuleiro[0][0].getSimbolo();
         String p2 = tabuleiro[1][1].getSimbolo();
@@ -135,11 +138,12 @@ public class Verificador {
      * alteration on the player's table is needed; or 2 if the diagonal is
      * complete, meaning victory.
      *
+     * @param t
      * @return 0 to a null value, no alterations needed; 1 to an unmatch value,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouDiagonal20() {
-        Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
+    private static int verificarSeGanhouDiagonal20(Tabuleiro t) {
+        Peca[][] tabuleiro = t.getQuadro();
 
         String p1 = tabuleiro[2][0].getSimbolo();
         String p2 = tabuleiro[1][1].getSimbolo();
@@ -148,7 +152,7 @@ public class Verificador {
         return fazerVerificacaoComPecas(p1, p2, p3);
     }
 
-    public int fazerVerificacaoComPecas(String p1, String p2, String p3) {
+    private static int fazerVerificacaoComPecas(String p1, String p2, String p3) {
         if (p1.equals(" ") || p2.equals(" ") || p3.equals(" ")) {
             return 0;
         } else if (!p1.equals(p2) || !p1.equals(p3)) {
@@ -158,7 +162,7 @@ public class Verificador {
         }
     }
 
-    public boolean fazerVerificacaoLinha(Jogador jogador) {
+    public static boolean fazerVerificacaoLinha(Jogador jogador, Tabuleiro t) {
         int[][] tabela = jogador.getTabelaVerificacao();
 
         for (int i = 0; i < tabela[0].length; i++) {
@@ -166,7 +170,7 @@ public class Verificador {
             int casa = tabela[0][i];
 
             if (casa != 0) {
-                int r = verificarSeGanhouLinha(casa);
+                int r = verificarSeGanhouLinha(casa, t);
                 
                 switch (r) {
                     case 1:
@@ -181,7 +185,7 @@ public class Verificador {
         return false;
     }
     
-    public boolean fazerVerificacaoColuna(Jogador jogador){
+    public static boolean fazerVerificacaoColuna(Jogador jogador, Tabuleiro t){
         int[][] tabela = jogador.getTabelaVerificacao();
         
         for (int i = 0; i < tabela[1].length; i++) {
@@ -189,7 +193,7 @@ public class Verificador {
             int casa = tabela[1][i];
             
             if(casa != 0){
-                int r = verificarSeGanhouColuna(casa);
+                int r = verificarSeGanhouColuna(casa, t);
                 
                 switch(r){
                     case 1:
@@ -204,13 +208,13 @@ public class Verificador {
         return false;
     }
     
-    public boolean fazerVerificacaoDiagonal00(Jogador j){
+    public static boolean fazerVerificacaoDiagonal00(Jogador j, Tabuleiro t){
         int[][] tabela = j.getTabelaVerificacao();
         
         int casa = tabela[2][0];
         
         if(casa != 0){
-            int r = verificarSeGanhouDiagonal00();
+            int r = verificarSeGanhouDiagonal00(t);
             
             switch(r){
                 case 1:
@@ -224,13 +228,13 @@ public class Verificador {
         return false;
     }
     
-    public boolean fazerVerificacaoDiagonal20(Jogador j){
+    public static boolean fazerVerificacaoDiagonal20(Jogador j, Tabuleiro t){
         int[][] tabela = j.getTabelaVerificacao();
         
         int casa = tabela[2][4];
         
         if(casa != 0){
-            int r = verificarSeGanhouDiagonal20();
+            int r = verificarSeGanhouDiagonal20(t);
             
             switch(r){
                 case 1:

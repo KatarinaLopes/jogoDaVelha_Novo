@@ -19,6 +19,7 @@ public class Jogo {
     private Jogador jogador2;
     private Tabuleiro tabuleiro;
     private static int vez;
+    private Jogador jogadorAtual;
 
     @Deprecated
     public Jogo() {
@@ -60,15 +61,13 @@ public class Jogo {
     }
 
     private Jogador getJogadorAtual() {
-        Jogador j;
-
         if (vez == 0) {
-            j = jogador1;
+            jogadorAtual = jogador1;
         } else {
-            j = jogador2;
+            jogadorAtual = jogador2;
         }
 
-        return j;
+        return jogadorAtual;
     }
 
     private void alternarVez() {
@@ -86,16 +85,30 @@ public class Jogo {
             System.out.println("Esta casa já foi selecionada!!!");
         } else {
             getJogadorAtual().setJogadas();
-            alternarVez();
+            //alternarVez();
         }
     }
 
     public void executar() {
         Scanner sc = new Scanner(System.in);
-
-        while (!tabuleiro.estaCheio()) {
+        
+        boolean r1 = false, r2 = false, r3 = false, r4 = false;
+        boolean resultado = r1 || r2 || r3 || r4;
+        
+        while (!tabuleiro.estaCheio() && !resultado) {
             jogar(sc.nextInt());
             System.out.println(tabuleiro.imprimirTabuleiro());
+            
+            if(getJogadorAtual().getJogadas() >= 3){
+                r1 = Verificador.fazerVerificacaoColuna(jogadorAtual, tabuleiro);
+                r2 = Verificador.fazerVerificacaoLinha(jogadorAtual, tabuleiro);
+                r3 = Verificador.fazerVerificacaoDiagonal00(jogadorAtual, tabuleiro);
+                r4 = Verificador.fazerVerificacaoDiagonal20(jogadorAtual, tabuleiro);
+                
+                resultado = r1 || r2 || r3 || r4;
+            }
+            
+            alternarVez();
         }
     }
 
@@ -126,7 +139,7 @@ public class Jogo {
         Tabuleiro t = new Tabuleiro(1);
 
         Jogo j = new Jogo(1, new Jogador(1, "amor", "X"), new Jogador(2, "ódio", "O"), t);
-        Verificador v = new Verificador(j);
+        //Verificador v = new Verificador();
 
         /*int valor = 0;
         while (!j.getTabuleiro().estaCheio() && valor != 2) {
