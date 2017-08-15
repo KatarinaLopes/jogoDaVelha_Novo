@@ -90,14 +90,14 @@ public class Jogador {
         tabelaVerificacao[i][j] = 0;
     }
    
-    public int realizarJogada(int casa, String simbolo, Tabuleiro tabuleiro){
+    public int realizarJogada(int casa, Tabuleiro tabuleiro){
         
         if(tabuleiro.verificarCasaSelecionada(casa)){
             return 0; //Erro 0 - Casa já selecionada
         }
         
         tabuleiro.setarCasaSelecionada(casa);
-        tabuleiro.setarPecaNoQuadro(casa, simbolo);
+        tabuleiro.setarPecaNoQuadro(casa, this.simbolo);
         
         return 1; //Código 1 - Jogada realizada;
         

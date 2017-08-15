@@ -59,7 +59,47 @@ public class Jogo {
         this.tabuleiro = tabuleiro;
     }
 
+    private Jogador getJogadorAtual() {
+        Jogador j;
+
+        if (vez == 0) {
+            j = jogador1;
+        } else {
+            j = jogador2;
+        }
+
+        return j;
+    }
+
+    private void alternarVez() {
+        if (vez == 0) {
+            vez = 1;
+        } else {
+            vez = 0;
+        }
+    }
+
     public void jogar(int casa) {
+        int resultado = getJogadorAtual().realizarJogada(casa, tabuleiro);
+
+        if (resultado == 0) {
+            System.out.println("Esta casa já foi selecionada!!!");
+        } else {
+            getJogadorAtual().setJogadas();
+            alternarVez();
+        }
+    }
+
+    public void executar() {
+        Scanner sc = new Scanner(System.in);
+
+        while (!tabuleiro.estaCheio()) {
+            jogar(sc.nextInt());
+            System.out.println(tabuleiro.imprimirTabuleiro());
+        }
+    }
+
+    /*public void jogar(int casa) {
         if (vez == 0) {
             int resultado = jogador1.realizarJogada(casa, jogador1.getSimbolo(), tabuleiro);
 
@@ -79,9 +119,7 @@ public class Jogo {
                 jogador2.setJogadas();
             }
         }
-    }
-
-    
+    }*/
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
 
@@ -89,17 +127,18 @@ public class Jogo {
 
         Jogo j = new Jogo(1, new Jogador(1, "amor", "X"), new Jogador(2, "ódio", "O"), t);
         Verificador v = new Verificador(j);
-        
-        int valor = 0;
+
+        /*int valor = 0;
         while (!j.getTabuleiro().estaCheio() && valor != 2) {
             //System.out.println(j.getTabuleiro().imprimirTabuleiro());
             j.jogar(s.nextInt());
             System.out.println(j.getTabuleiro().imprimirTabuleiro());
-            
+
             valor = v.verificarSeGanhouColuna(1);
-            
+
             System.out.println(valor);
-        }
+        }*/
+        j.executar();
     }
 
 }

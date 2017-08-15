@@ -14,7 +14,7 @@ import models.business.Peca;
  * @author Katarina
  */
 public class Verificador {
-    
+
     private Jogo jogo;
 
     @Deprecated
@@ -32,123 +32,215 @@ public class Verificador {
     public void setJogo(Jogo jogo) {
         this.jogo = jogo;
     }
-    
+
     /**
-     * This method receives an int <b>inical</b> which is the id of the initial play
-     * of the verification. This method must verify the line of this mentioned play
-     * by assimilating its symbols.
-     * 
-     * It returns 0 if there's a null value for a play, which means the "true table"
-     * of the player won't be altered. If there's a different symbol of the player's
-     * symbol, it'll return 1, which means the table must be altered. Although, if
-     * it returns 2, it means that the line is already completed, which means victory
+     * This method receives an int <b>inical</b> which is the id of the initial
+     * play of the verification. This method must verify the line of this
+     * mentioned play by assimilating its symbols.
+     *
+     * It returns 0 if there's a null value for a play, which means the "true
+     * table" of the player won't be altered. If there's a different symbol of
+     * the player's symbol, it'll return 1, which means the table must be
+     * altered. Although, if it returns 2, it means that the line is already
+     * completed, which means victory
+     *
      * @param inicial
      * @return 0 to a null value, no alterations needed; 1 to a unmatch symbol,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouLinha(int inicial){
+    public int verificarSeGanhouLinha(int inicial) {
         String p1 = "", p2 = "", p3 = "";
         Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
-        
+
         for (int i = 0; i < tabuleiro.length; i++) {
             for (int j = 0; j < tabuleiro[i].length; j++) {
-                if(tabuleiro[i][j].getId() == inicial){
+                if (tabuleiro[i][j].getId() == inicial) {
                     p1 = tabuleiro[i][j].getSimbolo();
-                    p2 = tabuleiro[i][j+1].getSimbolo();
-                    p3 = tabuleiro[i][j+2].getSimbolo();
-                    
+                    p2 = tabuleiro[i][j + 1].getSimbolo();
+                    p3 = tabuleiro[i][j + 2].getSimbolo();
+
                     break;
                 }
-                
+
             }
-        } 
-        
+        }
+
         return fazerVerificacaoComPecas(p1, p2, p3);
-        
+
     }
-    
+
     /**
-     * This method receives an int <b>inical</b> which is the id of the initial play
-     * of the verification. This method must verify the column of this mentioned play
-     * by assimilating its symbols.
-     * 
-     * It returns 0 if there's a null value for a play, which means the "true table"
-     * of the player won't be altered. If there's a different symbol of the player's
-     * symbol, it'll return 1, which means the table must be altered. Although, if
-     * it returns 2, it means that the column is already completed, which means victory
+     * This method receives an int <b>inical</b> which is the id of the initial
+     * play of the verification. This method must verify the column of this
+     * mentioned play by assimilating its symbols.
+     *
+     * It returns 0 if there's a null value for a play, which means the "true
+     * table" of the player won't be altered. If there's a different symbol of
+     * the player's symbol, it'll return 1, which means the table must be
+     * altered. Although, if it returns 2, it means that the column is already
+     * completed, which means victory
+     *
      * @param inicial
      * @return 0 to a null value, no alterations needed; 1 to a unmatch symbol,
      * alterations needed; 2 to victory.
-     */       
-    public int verificarSeGanhouColuna(int inicial){
+     */
+    public int verificarSeGanhouColuna(int inicial) {
         String p1 = "", p2 = "", p3 = "";
         Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
-        
+
         for (int i = 0; i < tabuleiro.length; i++) {
             for (int j = 0; j < tabuleiro[i].length; j++) {
-                if(tabuleiro[i][j].getId() == inicial){
+                if (tabuleiro[i][j].getId() == inicial) {
                     p1 = tabuleiro[i][j].getSimbolo();
-                    p2 = tabuleiro[i+1][j].getSimbolo();
-                    p3 = tabuleiro[i+2][j].getSimbolo();
-                    
+                    p2 = tabuleiro[i + 1][j].getSimbolo();
+                    p3 = tabuleiro[i + 2][j].getSimbolo();
+
                     break;
-                }                
+                }
             }
-            
+
         }
-        
+
         return fazerVerificacaoComPecas(p1, p2, p3);
     }
-    
+
     /**
      * This method verify the first diagonal starting by [0][0] in the array.
-     * 
-     * It must return 0 if there's some play with a null value for the symbol, meaning
-     * that no alterations are needed in the player's table; 1 if there's a symbol
-     * whose value unmatch the player's symbol, meaning that an alteration on the
-     * player's table is needed; or 2 if the diagonal is complete, meaning victory.
-     * 
-     * @return 0 to a null value, no alterations needed; 1 to an unmatch value, 
+     *
+     * It must return 0 if there's some play with a null value for the symbol,
+     * meaning that no alterations are needed in the player's table; 1 if
+     * there's a symbol whose value unmatch the player's symbol, meaning that an
+     * alteration on the player's table is needed; or 2 if the diagonal is
+     * complete, meaning victory.
+     *
+     * @return 0 to a null value, no alterations needed; 1 to an unmatch value,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouDiagonal00(){
+    public int verificarSeGanhouDiagonal00() {
         Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
-        
+
         String p1 = tabuleiro[0][0].getSimbolo();
         String p2 = tabuleiro[1][1].getSimbolo();
         String p3 = tabuleiro[2][2].getSimbolo();
-        
+
         return fazerVerificacaoComPecas(p1, p2, p3);
     }
-    
+
     /**
      * This method verify the second diagonal starting by [2][0] in the array.
-     * 
-     * It must return 0 if there's some play with a null value for the symbol, meaning
-     * that no alterations are needed in the player's table; 1 if there's a symbol
-     * whose value unmatch the player's symbol, meaning that an alteration on the
-     * player's table is needed; or 2 if the diagonal is complete, meaning victory.
-     * 
-     * @return 0 to a null value, no alterations needed; 1 to an unmatch value, 
+     *
+     * It must return 0 if there's some play with a null value for the symbol,
+     * meaning that no alterations are needed in the player's table; 1 if
+     * there's a symbol whose value unmatch the player's symbol, meaning that an
+     * alteration on the player's table is needed; or 2 if the diagonal is
+     * complete, meaning victory.
+     *
+     * @return 0 to a null value, no alterations needed; 1 to an unmatch value,
      * alterations needed; 2 to victory.
      */
-    public int verificarSeGanhouDiagonal20(){
-        Peca[][] tabuleiro  = jogo.getTabuleiro().getQuadro();
-        
+    public int verificarSeGanhouDiagonal20() {
+        Peca[][] tabuleiro = jogo.getTabuleiro().getQuadro();
+
         String p1 = tabuleiro[2][0].getSimbolo();
         String p2 = tabuleiro[1][1].getSimbolo();
         String p3 = tabuleiro[0][2].getSimbolo();
-        
+
         return fazerVerificacaoComPecas(p1, p2, p3);
     }
-    
-    public int fazerVerificacaoComPecas(String p1, String p2, String p3){
-        if(p1.equals(" ") || p2.equals(" ") || p3.equals(" ")){
+
+    public int fazerVerificacaoComPecas(String p1, String p2, String p3) {
+        if (p1.equals(" ") || p2.equals(" ") || p3.equals(" ")) {
             return 0;
-        }else if(!p1.equals(p2) || !p1.equals(p3)){
+        } else if (!p1.equals(p2) || !p1.equals(p3)) {
             return 1;
-        }else{
+        } else {
             return 2;
         }
+    }
+
+    public boolean fazerVerificacaoLinha(Jogador jogador) {
+        int[][] tabela = jogador.getTabelaVerificacao();
+
+        for (int i = 0; i < tabela[0].length; i++) {
+
+            int casa = tabela[0][i];
+
+            if (casa != 0) {
+                int r = verificarSeGanhouLinha(casa);
+                
+                switch (r) {
+                    case 1:
+                        jogador.alterarTabela(0, i);
+                        break;
+                    case 2:
+                        return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean fazerVerificacaoColuna(Jogador jogador){
+        int[][] tabela = jogador.getTabelaVerificacao();
+        
+        for (int i = 0; i < tabela[1].length; i++) {
+            
+            int casa = tabela[1][i];
+            
+            if(casa != 0){
+                int r = verificarSeGanhouColuna(casa);
+                
+                switch(r){
+                    case 1:
+                        jogador.alterarTabela(1, i);
+                        break;
+                    case 2:
+                        return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean fazerVerificacaoDiagonal00(Jogador j){
+        int[][] tabela = j.getTabelaVerificacao();
+        
+        int casa = tabela[2][0];
+        
+        if(casa != 0){
+            int r = verificarSeGanhouDiagonal00();
+            
+            switch(r){
+                case 1:
+                    j.alterarTabela(2, 0);
+                    break;
+                case 2:
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean fazerVerificacaoDiagonal20(Jogador j){
+        int[][] tabela = j.getTabelaVerificacao();
+        
+        int casa = tabela[2][4];
+        
+        if(casa != 0){
+            int r = verificarSeGanhouDiagonal20();
+            
+            switch(r){
+                case 1:
+                    j.alterarTabela(2, 4);
+                    break;
+                case 2:
+                    return true;
+            }
+        }
+        
+        return false;
     }
 }
